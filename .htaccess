@@ -1,0 +1,9 @@
+# 1and1 needed for php extensionless redirect.
+Options +FollowSymLinks -MultiViews
+
+RewriteEngine On
+RewriteBase /notes
+
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^(.*)$ index.php?$1 [L,QSA]
