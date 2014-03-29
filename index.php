@@ -33,7 +33,7 @@
     <style>
       #edit{
         display:none;
-        position:absolute;
+        position:fixed;
         z-index:200;
         width:700px;
         height:500px;
@@ -58,15 +58,6 @@
       function assignBind(){
         edit = $("#edit");
 
-        var width = $(document).innerWidth() * 0.8;
-        var height = $(document).innerHeight() * 0.8;
-        //console.log(width+","+height);
-        edit.css("width", width);
-        edit.css("height", height);
-        edit.css("margin-left",-width * 0.5);
-        edit.css("margin-top",-height * 0.5);
-        //console.log(edit);
-
         $(".navbar").click(function(){
           reboot();
         });
@@ -82,6 +73,21 @@
           getFile(function(data){
             console.log("init :: toggle edit");
             edit.val(data);
+
+            var screenWidth = $(window).innerWidth();
+            var screenHeight = $(window).innerHeight();
+            var width = screenWidth * 0.8;
+            var height = screenHeight * 0.8;
+            //console.log("window: "+screenWidth+"x"+screenHeight+", reduced: "+width+"x"+height);
+            
+            edit.css("width", width);
+            edit.css("height", height);
+            edit.css("margin-left",-width * 0.5);
+            edit.css("margin-top",-height * 0.5);
+            edit.css("top","50%");
+            edit.css("left","50%");
+            //console.log(edit);
+
             edit.fadeIn();
           });
         });
