@@ -27,6 +27,9 @@ I'm calling the strapdown.js file from the strapdownjs.com server so as long as 
 
 #HOW TO USE
 
+###SYNTAX
+
+http://daringfireball.net/projects/markdown/syntax
 
 ###OPEN A FILE/NEW FILE
 Just add /[filename] to the url you're at to create a new file to edit
