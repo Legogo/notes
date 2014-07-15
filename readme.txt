@@ -42,6 +42,15 @@ Just remove everything from the editing box and submit
 
 ###VERSIONS
 
+2014-07-15 - 0.12
+
+* click now target <p>, not .container
+* <a> are now clickable without editing text
+
+2014-07-02 - 0.11
+
+* mod only left click to active layer
+
 2014-03-28 - 0.1
 
 * add strapdown

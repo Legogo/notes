@@ -62,8 +62,16 @@
           reboot();
         });
 
-        $(".container").click(function(e){
-          
+        $("p:not(a)").click(function(e){
+          $this = $(this);
+          console.log($this);
+          if($this.lastChild )
+          e.preventDefault();
+          //http://stackoverflow.com/questions/14048344/jquery-mouseup-function-on-left-mouse-button-only
+          //e.which return diff values ?
+          //button 0 left, 1 middle, 2 right
+          if (e.button != 0) return false;
+
           edit.blur(function(){
             updateFile();
           });
@@ -92,6 +100,8 @@
           });
         });
 
+        //$("a").click(function(e){});
+        
       };
 
       function getFile(callback){
