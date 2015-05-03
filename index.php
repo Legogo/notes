@@ -81,6 +81,10 @@
   <head>
     <meta charset="UTF-8"/>
     <style>
+      h1:hover,h2:hover,h3:hover{
+        cursor:pointer;
+        padding-left:5px;
+      }
       h1:hover:after{
         content:"EDIT";
         line-height: 12px;
