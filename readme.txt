@@ -42,6 +42,16 @@ Just remove everything from the editing box and submit
 
 ###VERSIONS
 
+2015-05-03 - 0.13
+
+ * edit is now when clicking on h1
+ * added an edit visual feedback on mouse over
+
+2014-07-15 - 0.12
+
+* click now target <p>, not .container
+* < a > are now clickable without editing text
+
 2014-07-02 - 0.11
 
 * mod only left click to active layer
