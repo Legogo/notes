@@ -1,7 +1,57 @@
 <?php
+  
+  // ASYNC REQUESTS
+  // ==============
+
+  if(isset($_POST["action"])){
+    $act = $_POST["action"];
+    
+    switch($act){
+      case "edit" :
+
+        $name = $_POST["name"];
+  
+        $path = "files/".$name;
+        if($name == "readme") $path = $name;
+        $path .= ".txt";
+        
+        $data = file_get_contents($path);
+        echo $data;
+
+        break;
+      case "update" :
+
+        $name = $_POST["name"];
+        $data = stripslashes($_POST["data"]);
+
+        $path = "files/".$name;
+        if($name == "readme") $path = $name;
+        $path .= ".txt";
+
+        if(strlen($data) <= 0){
+          if(file_exists($path))  unlink($path);
+          echo "deleted";
+        }else{
+         file_put_contents($path, $data);
+         echo $data; 
+        }
+
+        break;
+    }
+
+    die();
+  }
+  
+?>
+
+<?php
+
+  // PAGE DISPLAY
+  // ============
+
   //find file name in URL
   $url = "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
-
+  
   //if file name is empty (index) use readme file as default
   $url = explode("/", $url);
   $url = $url[count($url)-1];
@@ -31,6 +81,14 @@
   <head>
     <meta charset="UTF-8"/>
     <style>
+      h1:hover:after{
+        content:"EDIT";
+        line-height: 12px;
+        font-size: 12px;
+        padding-left:20px;
+        cursor:pointer;
+        color:#d33;
+      }
       #edit{
         display:none;
         position:fixed;
@@ -62,8 +120,17 @@
           reboot();
         });
 
-        $(".container").click(function(e){
+        $("h1,h2,h3").click(function(e){
+          $this = $(this);
+          //console.log($this);
           
+          if($this.lastChild) e.preventDefault();
+
+          //http://stackoverflow.com/questions/14048344/jquery-mouseup-function-on-left-mouse-button-only
+          //e.which return diff values ?
+          //button 0 left, 1 middle, 2 right
+          if (e.button != 0) return false;
+
           edit.blur(function(){
             updateFile();
           });
@@ -71,7 +138,7 @@
           if(edit.is(":visible")){ return; }
 
           getFile(function(data){
-            console.log("init :: toggle edit");
+            //console.log("init :: toggle edit");
             edit.val(data);
 
             var screenWidth = $(window).innerWidth();
@@ -92,6 +159,8 @@
           });
         });
 
+        //$("a").click(function(e){});
+        
       };
 
       function getFile(callback){
@@ -105,8 +174,7 @@
 
         document.title = url;
 
-        console.log("[GET] : "+document.title);
-        $.post("get.php",{name:document.title}, function(data){
+        $.post("index.php",{action:"edit",name:document.title}, function(data){
           callback(data);
         });
       }
@@ -114,8 +182,8 @@
       function updateFile(){
         var file = document.title;
 
-        console.log("[update] file:"+file);
-        $.post("update.php",{name:file, data:edit.val()}, function(data){
+        //console.log("[update] file:"+file);
+        $.post("index.php",{action:"update",name:file, data:edit.val()}, function(data){
           
           //console.log("   data:\n"+data);
 
@@ -138,5 +206,9 @@
       }
     </script>
   </head>
-  <body><textarea id="all" theme="united" style="display:none;"><?php echo $data; ?></textarea><script src="http://strapdownjs.com/v/0.2/strapdown.js"></script><textarea id="edit"></textarea></body>
+  <body>
+    <textarea id="all" theme="united" style="display:none;"><?php echo $data; ?></textarea>
+    <script src="http://strapdownjs.com/v/0.2/strapdown.js"></script>
+    <textarea id="edit"></textarea>
+  </body>
 </html>
